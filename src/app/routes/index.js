@@ -1,38 +1,29 @@
-import React from 'react';
-import { BrowserRouter, Switch } from 'react-router-dom';
-import Route from './Route';
+import React, {useState} from "react";
+import Sidebar from "../main/sidebarDetails/Sidebar";
+import Route from "./Route";
+import {Switch} from "react-router-dom";
 
-import Home from '../main/company/Company';
+import Company from "../main/company/Company";
 
-
-export default function Routes() {
-    const getAccessToken = () => {
-        return localStorage.getItem('jwt_access_token');
-    };
-    console.log('getAccessToken:::::::::', getAccessToken());
-    console.log('Route:::::::::', Route);
-
-    if (getAccessToken()) {
-        return (
-            // <BrowserRouter>
-            <Switch>
-                <Route path="/" exact component={Home} />
-
-                {/* <Route path="/dashboard" component={Dashboard} isPrivate /> */}
-
-                {/* redirect user to SignIn page if route does not exist and user is not authenticated */}
-                <Route component={Home} />
-            </Switch>
-            // </BrowserRouter>
-        );
+function Content() {
+    const [sidebar, setSidebar] = useState(true);
+    const activeStatus = (status) => {
+        setSidebar(status);
     }
     return (
-        <Switch>
-            <Route path="/" exact component={Home} />
-            {/* <Route path="/dashboard" component={Dashboard} isPrivate /> */}
+        <>
+            <div className="w-full">
+                <Sidebar sidebarActiveStatus={activeStatus}/>
+                <div className="justify-content-end d-flex" style={{marginLeft: sidebar ? 250 : 0}}>
+                    <Switch>
+                        <Route path="/company" exact={true} component={Company}/>
 
-            {/* redirect user to SignIn page if route does not exist and user is not authenticated */}
-            <Route component={Home} />
-        </Switch>
+                        <Route component={Company}/>
+                    </Switch>
+                </div>
+            </div>
+        </>
     );
 }
+
+export default Content;
