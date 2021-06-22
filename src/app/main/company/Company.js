@@ -7,13 +7,13 @@ import {useDispatch} from "react-redux";
 function Company(){
 
     const history = useHistory();
-    const onContinue = useCallback(() => history.push('/company'), [history]);
-    const initialValues = { name:"" , email: "", phoneNumber: "" , address:"" };
+    const [initialValues , setInitialValues] = useState(
+        { name:"" , email: "", phoneNumber: "" , address:"" }
+    );
     const [formValues, setFormValues] = useState(initialValues);
     const [formErrors, setFormErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const dispatch = useDispatch();
-
 
     const submitForm = () => {
         const data = {
@@ -23,8 +23,13 @@ function Company(){
             address:formValues.address
         }
 
-        dispatch(addCompany(data))
-        console.log(formValues);
+        dispatch(addCompany(data)).then(res =>{
+            if (res.payload){
+                setInitialValues("")
+                history.push('/invoice')
+            }
+
+        })
     };
 
     const handleChange = (e) => {
