@@ -26,4 +26,10 @@ export const SidebarMenu = [
 		icon: <FaIcons.FaUserPlus />,
 		cName: 'nav-text'
 	},
+	{
+		title: 'Product Details',
+		path: '/product',
+		icon: <FaIcons.FaUserPlus />,
+		cName: 'nav-text'
+	},
 ];

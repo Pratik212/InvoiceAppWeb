@@ -26,7 +26,10 @@ function Company(){
         dispatch(addCompany(data)).then(res =>{
             if (res.payload){
                 setInitialValues("")
-                history.push('/invoice')
+                history.push({
+                    pathname:'/invoice',
+                    state:{companyData:data}
+                })
             }
 
         })
