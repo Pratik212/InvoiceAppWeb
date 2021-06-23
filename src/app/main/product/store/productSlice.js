@@ -2,9 +2,9 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {showMessage} from "../../../../store/fuse/messageSlice";
 
-export const addInvoice= createAsyncThunk('invoiceApp/addInvoice',async (invoice, { dispatch }) =>{
+export const addProduct= createAsyncThunk('invoiceApp/addProduct',async (product, { dispatch }) =>{
     try {
-        const response = await axios.post('/Invoice' , invoice);
+        const response = await axios.post('/Product' , product);
         dispatch(
             showMessage({
                 message: `${response.data.message}`,
@@ -22,13 +22,13 @@ export const addInvoice= createAsyncThunk('invoiceApp/addInvoice',async (invoice
 
 })
 
-const invoiceSlice = createSlice({
-    name: 'invoiceApp/addInvoice',
+const productSlice = createSlice({
+    name: 'invoiceApp/addProduct',
     initialState: null,
     reducers: {},
     extraReducers: {
-        [addInvoice.fulfilled]: (state, action) => action.payload
+        [addProduct.fulfilled]: (state, action) => action.payload
     }
 })
 
-export default invoiceSlice.reducer;
+export default productSlice.reducer;

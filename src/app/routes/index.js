@@ -5,6 +5,10 @@ import {Switch} from "react-router-dom";
 
 import Company from "../main/company/Company";
 import Invoice from "../main/invoice/Invoice";
+import Billing from "../main/billing/Billing";
+import Shipping from "../main/shipping/Shipping";
+import Product from "../main/product/Product";
+import FinalInvoice from "../main/finalinvoice/FinalInvoice";
 
 function Content() {
     const [sidebar, setSidebar] = useState(true);
@@ -19,6 +23,10 @@ function Content() {
                     <Switch>
                         <Route path="/company" exact={true} component={Company}/>
                         <Route path="/invoice" exact={true} component={Invoice}/>
+                        <Route path="/billing" exact={true} component={Billing}/>
+                        <Route path="/shipping" exact={true} component={Shipping}/>
+                        <Route path="/product" exact={true} component={Product}/>
+                        <Route path="/finalInvoice" exact={true} component={FinalInvoice}/>
 
                         <Route component={Company}/>
                     </Switch>

@@ -1,8 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {showMessage} from "../../../../store/fuse/messageSlice";
-import FuseUtils from "../../../../utils";
-
 
 export const addCompany= createAsyncThunk('invoiceApp/addCompany',async (company, { dispatch }) =>{
     try {
