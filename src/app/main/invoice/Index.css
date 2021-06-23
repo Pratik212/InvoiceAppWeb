@@ -9,3 +9,19 @@ h3{
     display:flex;
     justify-content:center;
 }
+
+.react-datepicker__input-container input{
+    display: block !important;
+}
+
+.react-datepicker-wrapper,
+.react-datepicker-wrapper input{
+    width: 100% !important;
+    border: 1px solid #ced4da;
+    height: 35px;}
+
+.datePicker
+{
+    width: 100% !important;
+    border: 1px solid #ced4da;
+}

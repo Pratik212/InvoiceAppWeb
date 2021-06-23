@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import './Index.css'
 import {useDispatch} from "react-redux";
-import {addCompany} from "../company/store/companySlice";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
@@ -82,6 +81,7 @@ function Invoice(props){
                         )}
                     </div>
                     <div className="form-group" style={{marginTop:'20px' ,marginBottom: formErrors.invoiceStartDate? '30px' :'10px'}}>
+                        <label htmlFor="exampleInputEmail1">Invoice Start Date</label>
                         <DatePicker
                             name="invoiceStartDate"
                             minDate={moment().toDate()}
@@ -96,19 +96,18 @@ function Invoice(props){
                     </div>
 
                     <div className="form-group" style={{marginTop:'20px' ,marginBottom: formErrors.invoiceDueDate? '30px' :'10px'}}>
+                        <label htmlFor="exampleInputEmail1">Invoice Due Date</label>
                         <DatePicker
                             name="invoiceDueDate"
                             minDate={moment().toDate()}
                             onChange={(date) => {
                                 formValues["invoiceDueDate"] = moment(date).format('L')
-                                console.log(":::date:::" , formValues )
                                 setDueDate(date)}
                             }
                             value={formValues.invoiceDueDate}
                         />
                     </div>
                     <button type="submit" className="btn btn-primary">Submit</button>
-                    <pre>{JSON.stringify(formValues, null, '  ')}</pre>
                 </form>
             </div>
         </>
