@@ -1,7 +1,22 @@
-import React from "react";
+import React, {useEffect} from "react";
 import companyLogo from '../../../img/companylogo.png'
+import {useDispatch, useSelector} from "react-redux";
+import {getProduct} from "../product/store/getProductSlice";
 
-function FinalInvoice(){
+function FinalInvoice(props){
+    const products = useSelector(store => store.Product.getProduct.product);
+    const totalAmount = products?.map(item => item.total);
+
+    let total = 0;
+    for (let i = 0; i < totalAmount?.length; i++)
+    {
+        total += totalAmount[i];
+    }
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getProduct())
+    }, []);
     return(
         <>
             <div className="container">
@@ -49,52 +64,31 @@ function FinalInvoice(){
                                 <thead>
                                 <tr>
                                     <th className="center">#</th>
-                                    <th>Item</th>
                                     <th>Description</th>
-
                                     <th className="right">Unit Cost</th>
                                     <th className="center">Qty</th>
                                     <th className="right">Total</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td className="center">1</td>
-                                    <td className="left strong">Origin License</td>
-                                    <td className="left">Extended License</td>
+                                {products?.map((item , index) =>{
+                                    console.log("item" , item.total)
+                                    return(
+                                        <>
+                                            <tbody>
+                                            <tr>
+                                                <td className="center">{index + 1}</td>
+                                                <td className="left strong">{item.description}</td>
+                                                <td className="left">{item.qty}</td>
 
-                                    <td className="right">$999,00</td>
-                                    <td className="center">1</td>
-                                    <td className="right">$999,00</td>
-                                </tr>
-                                <tr>
-                                    <td className="center">2</td>
-                                    <td className="left">Custom Services</td>
-                                    <td className="left">Instalation and Customization (cost per hour)</td>
+                                                <td className="right">{item.unitPrice}</td>
+                                                <td className="center">{item.total}</td>
+                                            </tr>
+                                            </tbody>
+                                        </>
+                                        )
 
-                                    <td className="right">$150,00</td>
-                                    <td className="center">20</td>
-                                    <td className="right">$3.000,00</td>
-                                </tr>
-                                <tr>
-                                    <td className="center">3</td>
-                                    <td className="left">Hosting</td>
-                                    <td className="left">1 year subcription</td>
+                                })}
 
-                                    <td className="right">$499,00</td>
-                                    <td className="center">1</td>
-                                    <td className="right">$499,00</td>
-                                </tr>
-                                <tr>
-                                    <td className="center">4</td>
-                                    <td className="left">Platinum Support</td>
-                                    <td className="left">1 year subcription 24/7</td>
-
-                                    <td className="right">$3.999,00</td>
-                                    <td className="center">1</td>
-                                    <td className="right">$3.999,00</td>
-                                </tr>
-                                </tbody>
                             </table>
                         </div>
                         <div className="row">
@@ -109,26 +103,26 @@ function FinalInvoice(){
                                         <td className="left">
                                             <strong>Subtotal</strong>
                                         </td>
-                                        <td className="right">$8.497,00</td>
+                                        <td className="right">{total}</td>
                                     </tr>
-                                    <tr>
-                                        <td className="left">
-                                            <strong>Discount (20%)</strong>
-                                        </td>
-                                        <td className="right">$1,699,40</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="left">
-                                            <strong>VAT (10%)</strong>
-                                        </td>
-                                        <td className="right">$679,76</td>
-                                    </tr>
+                                    {/*<tr>*/}
+                                    {/*    <td className="left">*/}
+                                    {/*        <strong>Discount (20%)</strong>*/}
+                                    {/*    </td>*/}
+                                    {/*    <td className="right">$1,699,40</td>*/}
+                                    {/*</tr>*/}
+                                    {/*<tr>*/}
+                                    {/*    <td className="left">*/}
+                                    {/*        <strong>VAT (10%)</strong>*/}
+                                    {/*    </td>*/}
+                                    {/*    <td className="right">$679,76</td>*/}
+                                    {/*</tr>*/}
                                     <tr>
                                         <td className="left">
                                             <strong>Total</strong>
                                         </td>
                                         <td className="right">
-                                            <strong>$7.477,36</strong>
+                                            <strong>{total}</strong>
                                         </td>
                                     </tr>
                                     </tbody>

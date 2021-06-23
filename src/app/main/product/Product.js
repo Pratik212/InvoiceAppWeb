@@ -29,8 +29,7 @@ function Product() {
             if (res.payload) {
                 setInitialValues("")
                 history.push({
-                    pathname: '/product',
-                    state: {shippingData: data}
+                    pathname: '/product'
                 })
             }
 
