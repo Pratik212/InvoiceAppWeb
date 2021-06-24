@@ -2,10 +2,18 @@ import React, {useEffect} from "react";
 import companyLogo from '../../../img/companylogo.png'
 import {useDispatch, useSelector} from "react-redux";
 import {getProduct} from "../product/store/getProductSlice";
+import { PDFExport } from "@progress/kendo-react-pdf";
 
 function FinalInvoice(props){
     const products = useSelector(store => store.Product.getProduct.product);
     const totalAmount = products?.map(item => item.total);
+    const billing = localStorage.getItem("billing");
+    const shipping = localStorage.getItem("shipping");
+    const invoice = localStorage.getItem("invoice");
+    const resultBilling = JSON.parse(billing);
+    const resultShipping = JSON.parse(shipping);
+    const resultInvoice = JSON.parse(invoice);
+    const pdfExportComponent = React.useRef(null);
 
     let total = 0;
     for (let i = 0; i < totalAmount?.length; i++)
@@ -17,43 +25,53 @@ function FinalInvoice(props){
     useEffect(() => {
         dispatch(getProduct())
     }, []);
+
+
+    const exportPDFWithComponent = () => {
+        if (pdfExportComponent.current) {
+            pdfExportComponent.current.save();
+        }
+    };
     return(
         <>
             <div className="container">
+                <PDFExport
+                    ref={pdfExportComponent}
+                    paperSize="auto"
+                    margin={40}
+                    fileName={`Report for ${new Date().getFullYear()}`}
+                    author="KendoReact Team"
+                >
                 <div className="card" style={{marginTop:'20px'}}>
                     <div className="card-header">
                         <img src={companyLogo} alt="Company Logo"/>
 
                     </div>
                     <div className="card-header">
-                        Invoice Start Date :
-                         <strong> 01/01/2018</strong>
-                        <span className="" style={{right:'20px' , marginTop:'0'}}>  Invoice Due Date :
-                         <strong> 01/01/2018</strong></span>
-
+                        Invoice Date :
+                         <strong> {resultInvoice.invoiceDate}</strong>
                     </div>
                     <div className="card-body">
                         <div className="row mb-4">
                             <div className="col-sm-6">
                                 <h6 className="mb-3">Billing Address:</h6>
                                 <div>
-                                    <strong>Webz Poland</strong>
+                                    <strong>Company Name</strong> : {resultBilling.companyName}
                                 </div>
-                                <div>Madalinskiego 8</div>
-                                <div>71-101 Szczecin, Poland</div>
-                                <div>Email: info@webz.com.pl</div>
-                                <div>Phone: +48 444 666 3333</div>
+                                <div><strong>Contact Name</strong> : {resultBilling.contactName}</div>
+                                <div><strong>Address</strong> : {resultBilling.address}</div>
+                                <div><strong>Email</strong> : {resultBilling.email}</div>
+                                <div><strong>Phone</strong> : {resultBilling.phoneNumber}</div>
                             </div>
 
                             <div className="col-sm-6">
                                 <h6 className="mb-3">Shipping Address:</h6>
                                 <div>
-                                    <strong>Bob Mart</strong>
+                                    <strong>Department Name</strong> : {resultShipping.departmentName}
                                 </div>
-                                <div>Attn: Daniel Marek</div>
-                                <div>43-190 Mikolow, Poland</div>
-                                <div>Email: marek@daniel.com</div>
-                                <div>Phone: +48 123 456 789</div>
+                                <div><strong>Client Company</strong> : {resultShipping.clientCompany}</div>
+                                <div><strong>Address</strong> : {resultShipping.address}</div>
+                                <div><strong>Phone Number</strong> : {resultShipping.phoneNumber}</div>
                             </div>
 
 
@@ -129,11 +147,13 @@ function FinalInvoice(props){
                                 </table>
 
                             </div>
-                            <button type="submit" className="btn btn-primary">Download PDF</button>
+
                         </div>
 
                     </div>
                 </div>
+                </PDFExport>
+                <button onClick={exportPDFWithComponent} type="submit" className="btn btn-primary">Download PDF</button>
             </div>
         </>
     )

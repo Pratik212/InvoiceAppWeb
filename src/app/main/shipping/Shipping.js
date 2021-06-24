@@ -21,11 +21,13 @@ function Shipping(){
             address:formValues.address
         }
 
+        window.localStorage.setItem("shipping",JSON.stringify(data));
+
         dispatch(addShipping(data)).then(res =>{
             if (res.payload){
                 setInitialValues("")
                 history.push({
-                    pathname:'/product',
+                    pathname:'/finalInvoice',
                     state:{shippingData:data}
                 })
             }
@@ -70,6 +72,16 @@ function Shipping(){
             submitForm();
         }
     }, [formErrors]);
+
+    const resetShipping = () =>{
+        window.localStorage.removeItem("shipping");
+        setFormValues({
+            departmentName:"",
+            clientCompany: "",
+            address:"",
+            phoneNumber: ""
+        });
+    }
 
     return(
         <>
@@ -119,7 +131,7 @@ function Shipping(){
                     </div>
 
                     <button type="submit" className="btn btn-primary">Submit</button>
-
+                    <h6 onClick={() => resetShipping()}  className="clear-btn btn-primary">Clear</h6>
                 </form>
 
             </div>

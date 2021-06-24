@@ -3,7 +3,7 @@ import * as FaIcons from 'react-icons/fa';
 
 export const SidebarMenu = [
 	{
-		title: 'Company Details',
+		title: 'Company Detail',
 		path: '/company',
 		icon: <FaIcons.FaUserPlus />,
 		cName: 'nav-text'
@@ -27,7 +27,7 @@ export const SidebarMenu = [
 		cName: 'nav-text'
 	},
 	{
-		title: 'Product Details',
+		title: 'Add Product',
 		path: '/product',
 		icon: <FaIcons.FaUserPlus />,
 		cName: 'nav-text'

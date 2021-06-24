@@ -4,31 +4,34 @@ import {useDispatch} from "react-redux";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
-import {addInvoice} from "./store/invoiceSlice";
+import addInvoice from "./store/invoiceSlice";
+import {useHistory} from "react-router-dom";
 
-function Invoice(props){
+function Invoice(){
+    const history = useHistory();
     const [initialValues , setInitialValues] = useState(
-        { invoiceNo:"" , invoiceStartDate: new Date(), invoiceDueDate: new Date()}
+        { invoiceNo:"" , invoiceDate: new Date()}
     )
     const [formValues, setFormValues] = useState(initialValues);
     const [formErrors, setFormErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [startDate, setStartDate] = useState(new Date());
-    const [dueDate, setDueDate] = useState(new Date());
     const dispatch = useDispatch();
+
 
     const submitForm = () => {
         const data = {
             invoiceNo : formValues.invoiceNo,
-            invoiceStartDate : formValues.invoiceStartDate,
-            invoiceDueDate : formValues.invoiceDueDate,
+            invoiceDate : formValues.invoiceDate,
         }
 
-        console.log(":::Data::::" , data)
         dispatch(addInvoice(data)).then(res =>{
-            debugger
             if (res.payload){
-                setInitialValues("")
+                window.localStorage.setItem("invoice",JSON.stringify(data));
+                setInitialValues(null)
+                history.push({
+                    pathname:'/billing'
+                })
             }
         })
     };
@@ -50,7 +53,7 @@ function Invoice(props){
         if (!values.invoiceNo) {
             errors.invoiceNo = "Invoice number is required!";
         }
-        if (!values.invoiceStartDate) {
+        if (!values.invoiceDate) {
             errors.invoiceDate = "Invoice Date is required!";
         }
         return errors;
@@ -61,6 +64,14 @@ function Invoice(props){
             submitForm();
         }
     }, [formErrors]);
+
+    const resetInvoice = () =>{
+        window.localStorage.removeItem("invoice");
+        setFormValues({
+            invoiceNo:"",
+            invoiceDate: "",
+        });
+    }
 
     return(
         <>
@@ -80,34 +91,27 @@ function Invoice(props){
                             <span style={{color:"red"}} className="error">{formErrors.invoiceNo}</span>
                         )}
                     </div>
-                    <div className="form-group" style={{marginTop:'20px' ,marginBottom: formErrors.invoiceStartDate? '30px' :'10px'}}>
-                        <label htmlFor="exampleInputEmail1">Invoice Start Date</label>
+                    <div className="form-group" style={{marginTop:'20px' ,marginBottom: formErrors.invoiceDate? '30px' :'10px'}}>
+                        <label htmlFor="exampleInputEmail1">Invoice Date</label>
                         <DatePicker
-                            name="invoiceStartDate"
+                            name="invoiceDate"
                             minDate={moment().toDate()}
                             onChange={(date) => {
-                                formValues["invoiceStartDate"] = moment(date).format('L')
+                                formValues["invoiceDate"] = moment(date).format('L')
                                 console.log(":::date:::" , formValues )
                                 setStartDate(date)}
                             }
 
-                            value={formValues.invoiceStartDate}
+                            value={formValues.invoiceDate}
                         />
+                        {formErrors.invoiceDate && (
+                            <span style={{color:"red"}} className="error">{formErrors.invoiceDate}</span>
+                        )}
                     </div>
 
-                    <div className="form-group" style={{marginTop:'20px' ,marginBottom: formErrors.invoiceDueDate? '30px' :'10px'}}>
-                        <label htmlFor="exampleInputEmail1">Invoice Due Date</label>
-                        <DatePicker
-                            name="invoiceDueDate"
-                            minDate={moment().toDate()}
-                            onChange={(date) => {
-                                formValues["invoiceDueDate"] = moment(date).format('L')
-                                setDueDate(date)}
-                            }
-                            value={formValues.invoiceDueDate}
-                        />
-                    </div>
                     <button type="submit" className="btn btn-primary">Submit</button>
+
+                    <h6 onClick={() => resetInvoice()}  className="clear-btn btn-primary">Clear</h6>
                 </form>
             </div>
         </>

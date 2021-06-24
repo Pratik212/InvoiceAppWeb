@@ -1,16 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {addProduct} from "./store/productSlice";
-import {getProduct} from "./store/getProductSlice";
+import './Product.css'
 
 function Product() {
-    const history = useHistory();
     const [initialValues, setInitialValues] = useState(
         {description: "", qty: 0, unitPrice: 0}
     );
-    const products = useSelector(store => store.Product.getProduct.product);
-    console.log(":::products:::", products)
     const [formValues, setFormValues] = useState(initialValues);
     const [formErrors, setFormErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,10 +23,7 @@ function Product() {
 
         dispatch(addProduct(data)).then(res => {
             if (res.payload) {
-                setInitialValues("")
-                history.push({
-                    pathname: '/product'
-                })
+                setInitialValues(null)
             }
 
         })
@@ -67,10 +60,6 @@ function Product() {
         }
     }, [formErrors]);
 
-    useEffect(() => {
-        dispatch(getProduct())
-    }, []);
-
     return (
         <>
             <div className="container-fluid">
@@ -78,34 +67,6 @@ function Product() {
                     <h3>Product Details</h3>
                 </div>
                 <hr style={{marginTop: '20px'}}/>
-
-                <table className="table table-bordered  table-striped table-info table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Qty</th>
-                        <th scope="col">UnitPrice</th>
-                        <th scope="col">Total</th>
-                    </tr>
-                    </thead>
-                    {products?.map(item => {
-                        return (
-                            <>
-                                <tbody>
-                                <tr>
-                                    <th scope="row">{item.id}</th>
-                                    <td>{item.description}</td>
-                                    <td>{item.qty}</td>
-                                    <td>{item.unitPrice}</td>
-                                    <td>{item.total}</td>
-                                </tr>
-                                </tbody>
-                            </>
-                        )
-                    })}
-
-                </table>
 
                 <form onSubmit={handleSubmit} noValidate>
 
@@ -154,7 +115,7 @@ function Product() {
                         />
                     </div>
 
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn-pdt btn-primary">Submit</button>
                 </form>
 
             </div>

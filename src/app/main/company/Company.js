@@ -7,13 +7,17 @@ import {useDispatch} from "react-redux";
 function Company(){
 
     const history = useHistory();
+    const company = localStorage.getItem("company");
+    const resultCompany = JSON.parse(company);
     const [initialValues , setInitialValues] = useState(
-        { name:"" , email: "", phoneNumber: "" , address:"" }
+        { name:"" || resultCompany?.name , email: "" || resultCompany?.email, phoneNumber: "" || resultCompany?.phoneNumber , address:"" || resultCompany?.address }
     );
     const [formValues, setFormValues] = useState(initialValues);
     const [formErrors, setFormErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const dispatch = useDispatch();
+
+
 
     const submitForm = () => {
         const data = {
@@ -25,10 +29,10 @@ function Company(){
 
         dispatch(addCompany(data)).then(res =>{
             if (res.payload){
-                setInitialValues("")
+                window.localStorage.setItem("company",JSON.stringify(data));
+                setInitialValues(null)
                 history.push({
-                    pathname:'/invoice',
-                    state:{companyData:data}
+                    pathname:'/invoice'
                 })
             }
 
@@ -76,6 +80,16 @@ function Company(){
         }
     }, [formErrors]);
 
+    const resetCompany = () =>{
+        window.localStorage.removeItem("company");
+        setFormValues({
+            name:"",
+            email: "",
+            address:"",
+            phoneNumber: ""
+        });
+    }
+
     return (
         <>
             <div className="container-fluid">
@@ -117,13 +131,14 @@ function Company(){
 
                     <div className="form-group" style={{marginTop:'20px' ,marginBottom:formErrors.phoneNumber? '30px' :'10px'}}>
                         <label htmlFor="exampleInputPassword1">Phone Number</label>
-                        <input type="text" className="form-control" name="phoneNumber"  value={formValues.phoneNumber}
+                        <input type="number" className="form-control" name="phoneNumber"  value={formValues.phoneNumber}
                                onChange={handleChange} />
                         {formErrors.phoneNumber && (
                             <span style={{color:"red"}} className="error">{formErrors.phoneNumber}</span>
                         )}
                     </div>
                     <button type="submit" className="btn btn-primary">Submit</button>
+                    <h6 onClick={() => resetCompany()} type="submit" className="clear-btn btn-primary">Clear</h6>
                 </form>
             </div>
         </>
