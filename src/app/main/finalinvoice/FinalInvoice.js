@@ -49,7 +49,7 @@ function FinalInvoice(props){
                     </div>
                     <div className="card-header">
                         Invoice Date :
-                         <strong> {resultInvoice.invoiceDate}</strong>
+                         <strong> {resultInvoice.invoiceStartDate}</strong>
                     </div>
                     <div className="card-body">
                         <div className="row mb-4">

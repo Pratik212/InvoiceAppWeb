@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch} from "react-redux";
-import addBilling from "./store/billingSlice";
+import {addBilling} from "./store/billingSlice";
 import {useHistory} from "react-router-dom";
 
 function Billing (){

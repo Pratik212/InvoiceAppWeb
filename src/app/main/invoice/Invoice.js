@@ -4,35 +4,36 @@ import {useDispatch} from "react-redux";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
-import addInvoice from "./store/invoiceSlice";
+import {addInvoice} from "./store/invoiceSlice";
 import {useHistory} from "react-router-dom";
 
 function Invoice(){
     const history = useHistory();
     const [initialValues , setInitialValues] = useState(
-        { invoiceNo:"" , invoiceDate: new Date()}
+        { invoiceNo:"" , invoiceStartDate: new Date()}
     )
     const [formValues, setFormValues] = useState(initialValues);
     const [formErrors, setFormErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [startDate, setStartDate] = useState(new Date());
+    const [dueDate, setDueDate] = useState(new Date());
     const dispatch = useDispatch();
-
 
     const submitForm = () => {
         const data = {
             invoiceNo : formValues.invoiceNo,
-            invoiceDate : formValues.invoiceDate,
+            invoiceStartDate : formValues.invoiceStartDate,
         }
 
+        console.log(":::Data::::" , data)
         dispatch(addInvoice(data)).then(res =>{
+            window.localStorage.setItem("invoice",JSON.stringify(data));
             if (res.payload){
-                window.localStorage.setItem("invoice",JSON.stringify(data));
-                setInitialValues(null)
                 history.push({
                     pathname:'/billing'
                 })
             }
+
         })
     };
 
@@ -53,7 +54,7 @@ function Invoice(){
         if (!values.invoiceNo) {
             errors.invoiceNo = "Invoice number is required!";
         }
-        if (!values.invoiceDate) {
+        if (!values.invoiceStartDate) {
             errors.invoiceDate = "Invoice Date is required!";
         }
         return errors;
@@ -91,26 +92,21 @@ function Invoice(){
                             <span style={{color:"red"}} className="error">{formErrors.invoiceNo}</span>
                         )}
                     </div>
-                    <div className="form-group" style={{marginTop:'20px' ,marginBottom: formErrors.invoiceDate? '30px' :'10px'}}>
-                        <label htmlFor="exampleInputEmail1">Invoice Date</label>
+                    <div className="form-group" style={{marginTop:'20px' ,marginBottom: formErrors.invoiceStartDate? '30px' :'10px'}}>
+                        <label htmlFor="exampleInputEmail1">Invoice Start Date</label>
                         <DatePicker
-                            name="invoiceDate"
+                            name="invoiceStartDate"
                             minDate={moment().toDate()}
                             onChange={(date) => {
-                                formValues["invoiceDate"] = moment(date).format('L')
+                                formValues["invoiceStartDate"] = moment(date).format('L')
                                 console.log(":::date:::" , formValues )
                                 setStartDate(date)}
                             }
 
-                            value={formValues.invoiceDate}
+                            value={formValues.invoiceStartDate}
                         />
-                        {formErrors.invoiceDate && (
-                            <span style={{color:"red"}} className="error">{formErrors.invoiceDate}</span>
-                        )}
                     </div>
-
                     <button type="submit" className="btn btn-primary">Submit</button>
-
                     <h6 onClick={() => resetInvoice()}  className="clear-btn btn-primary">Clear</h6>
                 </form>
             </div>
