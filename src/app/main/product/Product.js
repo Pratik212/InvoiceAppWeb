@@ -12,8 +12,8 @@ function Product() {
     const [productData , setProductData] = useState({})
     const [initialValues, setInitialValues] = useState(
         {description:"" ||  productData.description,
-            qty: 0 || productData?.qty,
-            unitPrice:0 || productData?.unitPrice}
+            qty: 0 || productData.qty,
+            unitPrice:0 || productData.unitPrice}
     );
     const [formValues, setFormValues] = useState(initialValues);
     const [formErrors, setFormErrors] = useState({});
@@ -146,7 +146,7 @@ function Product() {
 
                     <div className="form-group">
                         <label htmlFor="exampleInputPassword1">Sub Total</label>
-                        <input type="text" className="form-control" name="subTotal"
+                        <input type="number" className="form-control" name="subTotal"
                                value={productData ? productData.qty * productData.unitPrice : formValues.qty * formValues.unitPrice}
                         />
                     </div>
