@@ -6,7 +6,6 @@ import {showMessage} from "../../../../store/fuse/messageSlice";
 export const deleteProduct = createAsyncThunk('invoiceApp/Product/deleteProduct', async (data, { dispatch }) => {
     try {
         const response = await axios.post('/Product/delete', [data]);
-        console.log('deleteCaption response;:::::', response.data);
         return response.data.data;
     } catch (err) {
         dispatch(showMessage({ message: FuseUtils.getErrorMessageFromResponse(err) }));

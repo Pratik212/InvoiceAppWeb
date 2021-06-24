@@ -25,7 +25,8 @@ function Content() {
                         <Route path="/invoice" exact={true} component={Invoice}/>
                         <Route path="/billing" exact={true} component={Billing}/>
                         <Route path="/shipping" exact={true} component={Shipping}/>
-                        <Route path="/product" exact={true} component={Product}/>
+                        <Route path="/product/new" exact={true} component={Product}/>
+                        <Route path="/product/:id" exact={true} component={Product}/>
                         <Route path="/finalInvoice" exact={true} component={FinalInvoice}/>
 
                         <Route component={Company}/>

@@ -4,12 +4,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {getProduct} from "../product/store/getProductSlice";
 import {deleteProduct} from "../product/store/deleteProductSlice";
 import {PDFExport} from "@progress/kendo-react-pdf";
-import Modal from "../modal/Modal";
-import {HiMenuAlt1} from "react-icons/all";
+import {useHistory} from "react-router-dom";
 
 function FinalInvoice(props) {
+    const history = useHistory()
     const products = useSelector(store => store.Product.getProduct.product);
-    console.log("products" , products?.length)
     const totalAmount = products?.map(item => item.total);
     const billing = localStorage.getItem("billing");
     const shipping = localStorage.getItem("shipping");
@@ -37,17 +36,14 @@ function FinalInvoice(props) {
         }
     };
 
-    const updateProduct = (index) =>{
-        console.log(":::Index:::" , index)
+    const updateProduct = (id) =>{
+       history.push({
+           pathname:`product/${id}`
+       })
     }
 
-    const openDialog = () =>{
-        console.log("setopen" , open)
-        setOpen(true)
-    }
 
     const deleteProducts = (index) =>{
-        console.log(":::Index:::" )
             dispatch(deleteProduct(index.id)).then(res => {
                     dispatch(getProduct());
             });

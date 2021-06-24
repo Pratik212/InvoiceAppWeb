@@ -25,7 +25,6 @@ function Invoice(){
             invoiceStartDate : formValues.invoiceStartDate,
         }
 
-        console.log(":::Data::::" , data)
         dispatch(addInvoice(data)).then(res =>{
             window.localStorage.setItem("invoice",JSON.stringify(data));
             if (res.payload){
@@ -99,7 +98,6 @@ function Invoice(){
                             minDate={moment().toDate()}
                             onChange={(date) => {
                                 formValues["invoiceStartDate"] = moment(date).format('L')
-                                console.log(":::date:::" , formValues )
                                 setStartDate(date)}
                             }
 
