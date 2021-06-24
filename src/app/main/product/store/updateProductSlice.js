@@ -5,7 +5,6 @@ import {showMessage} from "../../../../store/fuse/messageSlice";
 
 export const updateProduct = createAsyncThunk('invoiceApp/updateProduct', async (data, { dispatch }) => {
     try {
-        debugger
         const response = await axios.put(`/Product/${data.id}`, data);
         // dispatch(
         // 		showMessage({
