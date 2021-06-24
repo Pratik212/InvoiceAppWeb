@@ -9,6 +9,7 @@ import Billing from "../main/billing/Billing";
 import Shipping from "../main/shipping/Shipping";
 import Product from "../main/product/Product";
 import FinalInvoice from "../main/finalinvoice/FinalInvoice";
+import ProductList from "../main/productList/ProductList";
 
 function Content() {
     const [sidebar, setSidebar] = useState(true);
@@ -27,6 +28,7 @@ function Content() {
                         <Route path="/shipping" exact={true} component={Shipping}/>
                         <Route path="/product/new" exact={true} component={Product}/>
                         <Route path="/product/:id" exact={true} component={Product}/>
+                        <Route path="/productList" exact={true} component={ProductList}/>
                         <Route path="/finalInvoice" exact={true} component={FinalInvoice}/>
 
                         <Route component={Company}/>
