@@ -71,23 +71,23 @@ function FinalInvoice(props) {
                             <div className="row mb-4">
                                 <div className="col-sm-6">
                                     <h6 className="mb-3">Billing Address:</h6>
-                                    <div>
+                                    <div className="text-capitalize">
                                         <strong>Company Name</strong> : {resultBilling.companyName}
                                     </div>
-                                    <div><strong>Contact Name</strong> : {resultBilling.contactName}</div>
-                                    <div><strong>Address</strong> : {resultBilling.address}</div>
-                                    <div><strong>Email</strong> : {resultBilling.email}</div>
-                                    <div><strong>Phone</strong> : {resultBilling.phoneNumber}</div>
+                                    <div className="text-capitalize"><strong>Contact Name</strong> : {resultBilling.contactName}</div>
+                                    <div className="text-capitalize"><strong>Address</strong> : {resultBilling.address}</div>
+                                    <div className="text-capitalize"><strong>Email</strong> : {resultBilling.email}</div>
+                                    <div className="text-capitalize"><strong>Phone</strong> : {resultBilling.phoneNumber}</div>
                                 </div>
 
                                 <div className="col-sm-6">
                                     <h6 className="mb-3">Shipping Address:</h6>
-                                    <div>
+                                    <div className="text-capitalize">
                                         <strong>Department Name</strong> : {resultShipping.departmentName}
                                     </div>
-                                    <div><strong>Client Company</strong> : {resultShipping.clientCompany}</div>
-                                    <div><strong>Address</strong> : {resultShipping.address}</div>
-                                    <div><strong>Phone Number</strong> : {resultShipping.phoneNumber}</div>
+                                    <div className="text-capitalize"><strong>Client Company</strong> : {resultShipping.clientCompany}</div>
+                                    <div className="text-capitalize"><strong>Address</strong> : {resultShipping.address}</div>
+                                    <div className="text-capitalize"><strong>Phone Number</strong> : {resultShipping.phoneNumber}</div>
                                 </div>
 
 
@@ -113,7 +113,7 @@ function FinalInvoice(props) {
                                                 <tbody>
                                                 <tr>
                                                     <td className="center">{index + 1}</td>
-                                                    <td className="left strong">{item.description}</td>
+                                                    <td className="left text-capitalize strong">{item.description}</td>
                                                     <td className="left">{item.qty}</td>
 
                                                     <td className="right">{item.unitPrice}</td>
