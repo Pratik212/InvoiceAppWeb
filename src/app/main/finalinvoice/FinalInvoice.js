@@ -64,8 +64,10 @@ function FinalInvoice(props) {
 
                         </div>
                         <div className="card-header">
-                            Invoice Date :
-                            <strong> {resultInvoice.invoiceStartDate}</strong>
+                            Invoice No :
+                            <strong> {resultInvoice.invoiceNo}</strong>
+                            <span className="" style={{right:'20px' , marginTop:'0'}}>  Invoice Date :
+                         <strong>{resultInvoice.invoiceStartDate}</strong></span>
                         </div>
                         <div className="card-body">
                             <div className="row mb-4">
