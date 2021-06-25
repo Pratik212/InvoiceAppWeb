@@ -17,17 +17,14 @@ function FinalInvoice() {
     const resultInvoice = JSON.parse(invoice);
     const pdfExportComponent = React.useRef(null);
 
-
     let total = 0;
     for (let i = 0; i < totalAmount?.length; i++) {
         total += totalAmount[i];
     }
 
-
     useEffect(() => {
         dispatch(getProduct())
     }, []);
-
 
     const exportPDFWithComponent = () => {
         if (pdfExportComponent.current) {
@@ -81,7 +78,7 @@ function FinalInvoice() {
                                     <div className="text-capitalize"><strong>Address</strong> : {resultShipping.address}
                                     </div>
                                     <div className="text-capitalize"><strong>Phone
-                                        Number</strong> : {resultShipping.phoneNumber}</div>
+                                        </strong> : {resultShipping.phoneNumber}</div>
                                 </div>
 
                             </div>
@@ -105,7 +102,6 @@ function FinalInvoice() {
                                                     <td className="center">{index + 1}</td>
                                                     <td className="left text-capitalize strong">{item.description}</td>
                                                     <td className="left">{item.qty}</td>
-
                                                     <td className="right">{item.unitPrice}</td>
                                                     <td className="right">{item.total}</td>
                                                 </tr>
