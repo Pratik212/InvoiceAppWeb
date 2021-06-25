@@ -3,10 +3,10 @@ import companyLogo from '../../../img/companylogo.png'
 import {useDispatch, useSelector} from "react-redux";
 import {getProduct} from "../product/store/getProductSlice";
 import {PDFExport} from "@progress/kendo-react-pdf";
-import {useHistory} from "react-router-dom";
+import './FinalInvoice.css'
 
-function FinalInvoice(props) {
-    const history = useHistory()
+function FinalInvoice() {
+    const dispatch = useDispatch();
     const products = useSelector(store => store.Product.getProduct.product);
     const totalAmount = products?.map(item => item.total);
     const billing = localStorage.getItem("billing");
@@ -17,11 +17,12 @@ function FinalInvoice(props) {
     const resultInvoice = JSON.parse(invoice);
     const pdfExportComponent = React.useRef(null);
 
+
     let total = 0;
     for (let i = 0; i < totalAmount?.length; i++) {
         total += totalAmount[i];
     }
-    const dispatch = useDispatch();
+
 
     useEffect(() => {
         dispatch(getProduct())
@@ -36,7 +37,7 @@ function FinalInvoice(props) {
 
     return (
         <>
-            <div className="container">
+            <div className="container" style={{overflow:'scroll', height:'90vh' ,  overflowX: 'hidden'}}>
                 <PDFExport
                     ref={pdfExportComponent}
                     paperSize="auto"
@@ -52,8 +53,7 @@ function FinalInvoice(props) {
                         <div className="card-header">
                             Invoice No :
                             <strong> {resultInvoice.invoiceNo}</strong>
-                            <span className="" style={{right: '20px', marginTop: '0'}}>  Invoice Date :
-                         <strong>{resultInvoice.invoiceStartDate}</strong></span>
+                            <span className="" style={{right: '20px', marginTop: '0'}}>  Invoice Date : <strong>{resultInvoice.invoiceStartDate}</strong></span>
                         </div>
                         <div className="card-body">
                             <div className="row mb-4">
@@ -87,8 +87,8 @@ function FinalInvoice(props) {
                             </div>
 
                             <div className="table-responsive-sm">
-                                <table className="table table-striped">
-                                    <thead>
+                                <table className="table table-bordered table-striped ">
+                                    <thead className="thead-light">
                                     <tr>
                                         <th className="center">#</th>
                                         <th>Description</th>
@@ -162,7 +162,9 @@ function FinalInvoice(props) {
                         </div>
                     </div>
                 </PDFExport>
-                <button onClick={exportPDFWithComponent} type="submit" className="btn btn-primary">Download PDF</button>
+                <div className="btn-download">
+                <button onClick={exportPDFWithComponent} type="submit" className="pdf-btn btn-primary">Download PDF</button>
+                </div>
             </div>
         </>
     )

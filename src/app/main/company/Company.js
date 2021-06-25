@@ -1,47 +1,57 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import './Company.css';
 import {addCompany} from "./store/companySlice";
 import {useDispatch} from "react-redux";
+import "react-toastify/dist/ReactToastify.css";
+import {Flip, toast} from "react-toastify"
+import Toaster from "../toaster/Toaster";
 
-function Company(){
+function Company() {
 
     const history = useHistory();
     const company = localStorage.getItem("company");
     const resultCompany = JSON.parse(company);
-    const [initialValues , setInitialValues] = useState(
-        { name:"" || resultCompany?.name , email: "" || resultCompany?.email, phoneNumber: "" || resultCompany?.phoneNumber , address:"" || resultCompany?.address }
+    const [initialValues, setInitialValues] = useState(
+        {
+            name: "" || resultCompany?.name,
+            email: "" || resultCompany?.email,
+            phoneNumber: "" || resultCompany?.phoneNumber,
+            address: "" || resultCompany?.address
+        }
     );
     const [formValues, setFormValues] = useState(initialValues);
     const [formErrors, setFormErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const dispatch = useDispatch();
 
-
-
     const submitForm = () => {
         const data = {
-            name : formValues.name,
-            email : formValues.email,
-            phoneNumber : formValues.phoneNumber,
-            address:formValues.address
+            name: formValues.name,
+            email: formValues.email,
+            phoneNumber: formValues.phoneNumber,
+            address: formValues.address
         }
 
-        dispatch(addCompany(data)).then(res =>{
-            if (res.payload){
-                window.localStorage.setItem("company",JSON.stringify(data));
-                setInitialValues(null)
-                history.push({
-                    pathname:'/invoice'
-                })
+        dispatch(addCompany(data)).then(res => {
+            if (res.payload) {
+                console.log("res", res)
+                window.localStorage.setItem("company", JSON.stringify(data));
+                toast("Company successfully add.", {
+                    transition: Flip
+                });
+                setTimeout(() => {
+                    history.push({
+                        pathname: '/invoice'
+                    })
+                }, 5000);
             }
-
         })
     };
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormValues({ ...formValues, [name]: value });
+        const {name, value} = e.target;
+        setFormValues({...formValues, [name]: value});
     };
 
     const handleSubmit = (e) => {
@@ -68,7 +78,7 @@ function Company(){
             errors.phoneNumber = "Phone number is required!";
         } else if (values.phoneNumber.length < 10) {
             errors.phoneNumber = "Phone Number must be more than 10 Digit";
-        }else if(values.phoneNumber.length >10){
+        } else if (values.phoneNumber.length > 10) {
             errors.phoneNumber = "Phone Number must be  10 Digit";
         }
         return errors;
@@ -80,12 +90,12 @@ function Company(){
         }
     }, [formErrors]);
 
-    const resetCompany = () =>{
+    const resetCompany = () => {
         window.localStorage.removeItem("company");
         setFormValues({
-            name:"",
+            name: "",
             email: "",
-            address:"",
+            address: "",
             phoneNumber: ""
         });
     }
@@ -96,50 +106,55 @@ function Company(){
                 <div className="justify-content-center d-flex">
                     <h3>Company Details</h3>
                 </div>
-                <hr style={{marginTop:'20px'}}/>
+                <hr style={{marginTop: '20px'}}/>
 
                 <form onSubmit={handleSubmit} noValidate>
 
-                    <div className="form-group" style={{marginTop:'20px' ,marginBottom: formErrors.name? '30px' :'10px'}}>
+                    <div className="form-group"
+                         style={{marginTop: '20px', marginBottom: formErrors.name ? '30px' : '10px'}}>
                         <label htmlFor="exampleInputEmail1">Company Name</label>
-                        <input type="text" className="form-control"  name="name" value={formValues.name}
+                        <input type="text" className="form-control" name="name" value={formValues.name}
                                onChange={handleChange}/>
                         {formErrors.name && (
-                            <span style={{color:"red"}} className="error">{formErrors.name}</span>
+                            <span style={{color: "red"}} className="error">{formErrors.name}</span>
                         )}
                     </div>
 
-                    <div className="form-group" style={{marginTop:'20px' ,marginBottom:formErrors.email? '30px' :'10px'}}>
+                    <div className="form-group"
+                         style={{marginTop: '20px', marginBottom: formErrors.email ? '30px' : '10px'}}>
                         <label htmlFor="exampleInputEmail1">Email address</label>
                         <input type="email" className="form-control" name="email" value={formValues.email}
                                onChange={handleChange}/>
                         {formErrors.email && (
-                            <span style={{color:"red"}} className="error">{formErrors.email}</span>
+                            <span style={{color: "red"}} className="error">{formErrors.email}</span>
                         )}
 
                     </div>
 
-                    <div className="form-group" style={{marginTop:'20px' ,marginBottom:formErrors.address? '30px' :'10px'}}>
+                    <div className="form-group"
+                         style={{marginTop: '20px', marginBottom: formErrors.address ? '30px' : '10px'}}>
                         <label htmlFor="exampleInputEmail1">Address</label>
                         <input type="textarea" className="form-control" name="address" value={formValues.address}
                                onChange={handleChange}/>
                         {formErrors.address && (
-                            <span style={{color:"red"}} className="error">{formErrors.address}</span>
+                            <span style={{color: "red"}} className="error">{formErrors.address}</span>
                         )}
 
                     </div>
 
-                    <div className="form-group" style={{marginTop:'20px' ,marginBottom:formErrors.phoneNumber? '30px' :'10px'}}>
+                    <div className="form-group"
+                         style={{marginTop: '20px', marginBottom: formErrors.phoneNumber ? '30px' : '10px'}}>
                         <label htmlFor="exampleInputPassword1">Phone Number</label>
-                        <input type="number" className="form-control" name="phoneNumber"  value={formValues.phoneNumber}
-                               onChange={handleChange} />
+                        <input type="number" className="form-control" name="phoneNumber" value={formValues.phoneNumber}
+                               onChange={handleChange}/>
                         {formErrors.phoneNumber && (
-                            <span style={{color:"red"}} className="error">{formErrors.phoneNumber}</span>
+                            <span style={{color: "red"}} className="error">{formErrors.phoneNumber}</span>
                         )}
                     </div>
                     <button type="submit" className="btn btn-primary">Submit</button>
-                    <h6 onClick={() => resetCompany()} type="submit" className="clear-btn btn-primary">Clear</h6>
+                    <h6 onClick={() => resetCompany()} className="clear-btn btn-primary">Clear</h6>
                 </form>
+                <Toaster/>
             </div>
         </>
     )

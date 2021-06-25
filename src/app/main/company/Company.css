@@ -71,5 +71,9 @@ span{
     border-radius:20px;
     position: fixed;
     bottom: 42px;
-    right: 12%;
+    right: 20px;
+}
+
+.Toastify__toast-container{
+    z-index: 111111111;
 }

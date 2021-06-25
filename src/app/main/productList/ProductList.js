@@ -1,9 +1,8 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {deleteProduct} from "../product/store/deleteProductSlice";
 import {getProduct} from "../product/store/getProductSlice";
 import {useHistory} from "react-router-dom";
-
 
 function ProductList(){
     const history = useHistory();
@@ -35,8 +34,8 @@ function ProductList(){
                 <hr style={{marginTop: '20px'}}/>
 
                 <div className="table-responsive-sm">
-                    <table className="table table-striped">
-                        <thead>
+                    <table className="table table-hover table-bordered">
+                        <thead className="thead-light">
                         <tr>
                             <th className="center">#</th>
                             <th>Description</th>
@@ -54,7 +53,6 @@ function ProductList(){
                                         <td className="center">{index + 1}</td>
                                         <td className="left text-capitalize strong">{item.description}</td>
                                         <td className="left">{item.qty}</td>
-
                                         <td className="right">{item.unitPrice}</td>
                                         <td className="right">{item.total}</td>
                                         <td className="left">

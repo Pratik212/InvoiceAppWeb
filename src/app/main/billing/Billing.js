@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch} from "react-redux";
 import {addBilling} from "./store/billingSlice";
 import {useHistory} from "react-router-dom";
+import Toaster from "../toaster/Toaster";
+import {Flip, toast} from "react-toastify";
 
 function Billing (){
     const history = useHistory();
@@ -25,10 +27,14 @@ function Billing (){
         dispatch(addBilling(data)).then(res =>{
             if (res.payload){
                 window.localStorage.setItem("billing",JSON.stringify(data));
-                setInitialValues(null)
-                history.push({
-                    pathname:'/shipping'
-                })
+                toast.success("Billing Address successfully add.", {
+                    transition: Flip
+                });
+                setTimeout(() => {
+                    history.push({
+                        pathname: '/shipping'
+                    })
+                },5000)
             }
 
         })
@@ -149,7 +155,7 @@ function Billing (){
 
                     <h6 onClick={() => resetBilling()}  className="clear-btn btn-primary">Clear</h6>
                 </form>
-
+                <Toaster/>
             </div>
         </>
     )
