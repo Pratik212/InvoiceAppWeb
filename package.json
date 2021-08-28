@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.4",
     "@progress/kendo-drawing": "^1.10.1",
     "@progress/kendo-licensing": "^1.1.4",
     "@progress/kendo-react-pdf": "^4.7.0",
@@ -20,6 +21,7 @@
     "prop-types": "^15.7.2",
     "ramda": "^0.27.1",
     "react": "^17.0.2",
+    "react-bootstrap": "^1.6.1",
     "react-datepicker": "^4.1.1",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
@@ -27,6 +29,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-toastify": "^7.0.4",
     "redux-logger": "^3.0.6",
     "web-vitals": "^1.0.1"
   },

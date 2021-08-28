@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {addShipping} from "./store/shippingSlice";
+import {Flip, toast} from "react-toastify";
+import Toaster from "../toaster/Toaster";
 
 function Shipping(){
     const history = useHistory();
@@ -25,11 +27,14 @@ function Shipping(){
 
         dispatch(addShipping(data)).then(res =>{
             if (res.payload){
-                setInitialValues("")
-                history.push({
-                    pathname:'/finalInvoice',
-                    state:{shippingData:data}
-                })
+                toast.success("Shipping Address successfully add.", {
+                    transition: Flip
+                });
+                setTimeout(() => {
+                    history.push({
+                        pathname: '/finalInvoice'
+                    })
+                },5000)
             }
 
         })
@@ -133,7 +138,7 @@ function Shipping(){
                     <button type="submit" className="btn btn-primary">Submit</button>
                     <h6 onClick={() => resetShipping()}  className="clear-btn btn-primary">Clear</h6>
                 </form>
-
+                <Toaster/>
             </div>
         </>
     )

@@ -6,6 +6,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import {addInvoice} from "./store/invoiceSlice";
 import {useHistory} from "react-router-dom";
+import {Flip, toast} from "react-toastify";
+import Toaster from "../toaster/Toaster";
 
 function Invoice(){
     const history = useHistory();
@@ -28,9 +30,14 @@ function Invoice(){
         dispatch(addInvoice(data)).then(res =>{
             window.localStorage.setItem("invoice",JSON.stringify(data));
             if (res.payload){
-                history.push({
-                    pathname:'/billing'
-                })
+                toast.success("Invoice successfully add.", {
+                    transition: Flip
+                });
+                setTimeout(() => {
+                    history.push({
+                        pathname: '/billing'
+                    })
+                },5000);
             }
 
         })
@@ -92,10 +99,11 @@ function Invoice(){
                         )}
                     </div>
                     <div className="form-group" style={{marginTop:'20px' ,marginBottom: formErrors.invoiceStartDate? '30px' :'10px'}}>
-                        <label htmlFor="exampleInputEmail1">Invoice Start Date</label>
+                        <label htmlFor="exampleInputEmail1">Invoice Date</label>
                         <DatePicker
                             name="invoiceStartDate"
                             minDate={moment().toDate()}
+                            maxDate={new Date()}
                             onChange={(date) => {
                                 formValues["invoiceStartDate"] = moment(date).format('L')
                                 setStartDate(date)}
@@ -107,6 +115,7 @@ function Invoice(){
                     <button type="submit" className="btn btn-primary">Submit</button>
                     <h6 onClick={() => resetInvoice()}  className="clear-btn btn-primary">Clear</h6>
                 </form>
+                <Toaster/>
             </div>
         </>
     )

@@ -1,23 +1,16 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
-import {showMessage} from "../../../../store/fuse/messageSlice";
+import {Flip, toast} from "react-toastify";
 
 export const addCompany= createAsyncThunk('invoiceApp/addCompany',async (company, { dispatch }) =>{
     try {
         const response = await axios.post('/Company' , company);
-        dispatch(
-        	showMessage({
-        		message: `${response.data.message}`,
-        		autoHideDuration: 2000,
-        		anchorOrigin: {
-        			vertical: 'top',
-        			horizontal: 'center'
-        		}
-        	})
-        );
+
         return response.data;
     } catch (err) {
-        dispatch(showMessage({ message: err.response.data.Message }));
+        toast.error(err.response.data.Message, {
+            transition: Flip
+        });
     }
 
 })

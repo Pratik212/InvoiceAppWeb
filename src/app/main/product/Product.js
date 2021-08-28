@@ -100,7 +100,7 @@ function Product() {
         <>
             <div className="container-fluid">
                 <div className="justify-content-center d-flex">
-                    <h3>Add Product</h3>
+                    <h3>Product Details</h3>
                 </div>
                 <hr style={{marginTop: '20px'}}/>
 
